@@ -267,7 +267,8 @@ if __name__ == '__main__':
     else:
       files |= set(glob.glob(pattern))
 
-  scores = []
   pool = Pool(4)
   files = sorted(files)
-  pool.map_async(score_file, files).get((1<<30)-1)
+  scores = pool.map_async(score_file, files).get((1<<30)-1)
+
+  print '\n----\nAverage score: %.2f' % (sum(scores) / len(scores))
