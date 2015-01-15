@@ -29,5 +29,9 @@ class TestReadability(unittest.TestCase):
 
     self.assertTrue(good_score < bad_score < apl_score)
 
+  def test_ignore_pattern(self):
+    self.assertFalse(readability.EXT_RE.match("abc.py"))
+    self.assertTrue(readability.EXT_RE.match("abc.pyc"))
+
 if __name__ == '__main__':
     unittest.main()

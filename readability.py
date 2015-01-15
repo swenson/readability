@@ -24,7 +24,135 @@ LPB_CONST = 1.0
 LINE_LEN_CONST = 1.0
 LLOC_CONST = 1.0
 
+IGNORE_DIRS = set([
+  'bower_components',
+  'node_modules'
+])
+
+IGNORE_DIRS = set(['/' + d for d in IGNORE_DIRS])
+
+# ignore these file extensions
+IGNORE_EXTS = [
+ '7z',
+ 'DS_Store',
+ 'a',
+ 'acn',
+ 'acr',
+ 'alg',
+ 'aux',
+ 'avi',
+ 'bak',
+ 'BAK',
+ 'bbl',
+ 'bcf',
+ 'blg',
+ 'brf',
+ 'bz2',
+ 'class',
+ 'classpath',
+ 'com',
+ 'crt',
+ 'dat',
+ 'db',
+ 'dll',
+ 'dmg',
+ 'dvi',
+ 'egg',
+ 'end',
+ 'eot',
+ 'eps',
+ 'exe',
+ 'fdb_latexmk',
+ 'fls',
+ 'flv',
+ 'gem',
+ 'gif',
+ 'glg',
+ 'glo',
+ 'gls',
+ 'gz',
+ 'ico',
+ 'idea',
+ 'ids',
+ 'idx',
+ 'ilg',
+ 'iml',
+ 'ind',
+ 'ipr',
+ 'iso',
+ 'ist',
+ 'iws',
+ 'jar',
+ 'jpg',
+ 'key',
+ 'loa',
+ 'lof',
+ 'log',
+ 'lol',
+ 'lot',
+ 'maf',
+ 'metadata',
+ 'mo',
+ 'mov',
+ 'mp3',
+ 'mp4',
+ 'mpg',
+ 'mtc',
+ 'mtc0',
+ 'mw',
+ 'nav',
+ 'nlo',
+ 'o',
+ 'ogg',
+ 'ogv',
+ 'otf',
+ 'out',
+ 'pdf',
+ 'pdfsync',
+ 'pem',
+ 'plist',
+ 'png',
+ 'pot',
+ 'project',
+ 'ps',
+ 'pyc',
+ 'pyd',
+ 'pyg',
+ 'pyo',
+ 'rar',
+ 'rbc',
+ 'repl_history',
+ 'scmd',
+ 'settings',
+ 'sm',
+ 'snm',
+ 'so',
+ 'sout',
+ 'spec',
+ 'sql',
+ 'sqlite',
+ 'svg',
+ 'swap',
+ 'swp',
+ 'sympy',
+ 'tar',
+ 'tdo',
+ 'thm',
+ 'toc',
+ 'ttf',
+ 'ttyrec',
+ 'vrb',
+ 'wav',
+ 'webm',
+ 'wma',
+ 'wmv',
+ 'woff',
+ 'xdy',
+ 'zip']
+
 TOKEN_RE = re.compile(r'(\W+)', flags=re.UNICODE)
+
+EXT_RE = re.compile('.*\\.(' + '|'.join(IGNORE_EXTS) + ')')
 
 def log2(x):
   """Computes the log of the number in base 2."""
@@ -121,8 +249,19 @@ if __name__ == '__main__':
       for dirname, _, fnames in os.walk(os.path.abspath(pattern)):
         if dirname.startswith('.') or "/." in dirname:
           continue
+
+        bad = False
+        for bad_dir in IGNORE_DIRS:
+          if bad_dir in dirname:
+            bad = True
+            break
+        if bad:
+          continue
+
         for fname in fnames:
           if fname.startswith('.'):
+            continue
+          if EXT_RE.match(fname):
             continue
           files.add(os.path.join(dirname, fname))
     else:
