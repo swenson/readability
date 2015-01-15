@@ -45,7 +45,7 @@ tisgc = lambda var: [print(i) for i in range(10)]
 
 It is penalized for having more symbols and longer lines.
 
-For kicks, the following APL code is even worse, its score is 86.49:
+For kicks, the following APL code is even worse: its score is 86.49.
 
 ```apl
 life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.⊖¯1 0 1∘.⌽⊂⍵}
