@@ -14,6 +14,7 @@ bad_code = """
 tisgc = lambda var: [print(i) for i in range(10)]
 """
 
+# taken from http://en.wikipedia.org/wiki/APL_%28programming_language%29#Examples
 apl_code = u"""
 life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.⊖¯1 0 1∘.⌽⊂⍵}
 """
